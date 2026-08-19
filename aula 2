@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+
+void imprimir_linha(int tamanho) {
+    for(int i = 1; i <= tamanho; i++) {
+        printf("*");
+    }
+    printf("\n");
+}
+
+int main() {
+    imprimir_linha(1); 
+    imprimir_linha(2); 
+    imprimir_linha(3); 
+
+    return 0;
+}
