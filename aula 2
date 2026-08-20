@@ -1,17 +1,43 @@
 #include <stdio.h>
 
 
-void imprimir_linha(int tamanho) {
+void imprimir_linha(int tamanho, char ch) {
     for(int i = 1; i <= tamanho; i++) {
-        printf("*");
+        printf("%c", ch);
     }
     printf("\n");
 }
 
 int main() {
-    imprimir_linha(1); 
-    imprimir_linha(2); 
-    imprimir_linha(3); 
+    int tamanho;
+    char ch;
+    printf("Escolha a quantidade de vezes que vai repetir:\n");
+    scanf("%i", &tamanho);
+    while(getchar() != '\n');
+    printf("Digite um caracter:\n");
+    scanf("%c", &ch);
+    imprimir_linha(tamanho, ch); 
 
     return 0;
+}
+
+#include <stdio.h>
+
+void data_atual (int dia, int mes, int ano){
+    printf("%02d/%02d/%04d", dia, mes, ano);
+}
+int main(){
+    int dia, mes, ano;
+    printf("Digite o dia de hoje:\n");
+    scanf("%d", &dia);
+    while(getchar() != '\n');
+    printf("Digite o mês atual:\n");
+    scanf("%d", &mes);
+    while(getchar() != '\n');
+    printf("Digite o ano atual:\n");
+    scanf("%d", &ano);
+    while(getchar() != '\n');
+    
+    data_atual(dia, mes, ano);
+    return 0;   
 }
