@@ -38,3 +38,45 @@ int main()
     
     return 0;
 }
+
+//Versão sem o Whilhe(getchar());
+
+#include <stdio.h>
+
+struct pessoa {
+    char nome[100];
+    int idade;
+};
+
+typedef struct pessoa Pessoa;
+
+void cadastro_cliente (Pessoa p[], int n){
+    for (int i = 0; i < n; i++){
+        printf("Digite o nome do cliente %d:\n", i + 1);
+        scanf("%99[^\n]%*c", p[i].nome);
+    
+        printf("Digite a idade do cliente %d:\n", i + 1);
+        scanf("%d%*c", &p[i].idade);
+    }
+}
+
+void exibir_clientes (Pessoa p[], int n){
+    printf("\nTabela de Clientes:\n");
+    for (int i = 0; i < n; i++){
+        printf("Nome: %s\n", p[i].nome);
+        printf("Idade: %d\n", p[i].idade);
+        printf("------------------------\n");
+    }
+}
+
+int main()
+{
+    Pessoa p[3];
+    int tamanho = sizeof(p) / sizeof(p[0]); 
+    
+    cadastro_cliente(p, tamanho);
+    exibir_clientes(p, tamanho);
+    
+    return 0;
+}
+
