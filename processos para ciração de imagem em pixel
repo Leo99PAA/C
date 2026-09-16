@@ -1,0 +1,101 @@
+#include <stdio.h>
+
+// Definição da união Pixel conforme a arquitetura
+typedef union {
+    struct {
+        #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+            unsigned char a, b, g, r;
+        #else
+            unsigned char r, g, b, a;
+        #endif
+    } canais;
+    unsigned int valor;
+} Pixel;
+
+// Função genérica para copiar uma imagem de origem (int) para destino (Pixel)
+void copiar_imagem(int n, int origem[n][n], Pixel destino[n][n]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            destino[i][j].valor = (unsigned int)origem[i][j];
+        }
+    }
+}
+
+// 6. Imagem com borda magenta
+void aplicar_borda(int n, Pixel imagem[n][n]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == 0 || i == n - 1 || j == 0 || j == n - 1) {
+                imagem[i][j].canais.r = 255;
+                imagem[i][j].canais.g = 0;
+                imagem[i][j].canais.b = 255;
+            }
+        }
+    }
+}
+
+// 7. Meia árvore de natal (Triângulo inferior esquerdo verde)
+void aplicar_meia_arvore(int n, Pixel imagem[n][n]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j <= i; j++) {
+            imagem[i][j].canais.r = 0;
+            imagem[i][j].canais.g = 255;
+            imagem[i][j].canais.b = 0;
+        }
+    }
+}
+
+// 8. Meia árvore invertida (Triângulo superior esquerdo vermelho)
+void aplicar_meia_arvore_invertida(int n, Pixel imagem[n][n]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n - i; j++) {
+            imagem[i][j].canais.r = 255;
+            imagem[i][j].canais.g = 0;
+            imagem[i][j].canais.b = 0;
+        }
+    }
+}
+
+// 9. Interseção das meias árvores (Mistura de R e G resulta em laranja)
+void aplicar_intersecao_arvores(int n, Pixel imagem[n][n]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            int pertence_arvore1 = (j <= i);
+            int pertence_arvore2 = (j < n - i);
+
+            // Na interseção dos dois padrões
+            if (pertence_arvore1 && pertence_arvore2) {
+                imagem[i][j].canais.r = 255;
+                imagem[i][j].canais.g = 128; // Mistura R + G -> Laranja
+                imagem[i][j].canais.b = 0;
+            }
+        }
+    }
+}
+
+// 10. União das meias árvores
+void aplicar_uniao_arvores(int n, Pixel imagem[n][n]) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            int pertence_arvore1 = (j <= i);
+            int pertence_arvore2 = (j < n - i);
+
+            if (pertence_arvore1 && pertence_arvore2) {
+                // Interseção: Laranja
+                imagem[i][j].canais.r = 255;
+                imagem[i][j].canais.g = 128;
+                imagem[i][j].canais.b = 0;
+            } else if (pertence_arvore1) {
+                // Apenas árvore 1: Verde
+                imagem[i][j].canais.r = 0;
+                imagem[i][j].canais.g = 255;
+                imagem[i][j].canais.b = 0;
+            } else if (pertence_arvore2) {
+                // Apenas árvore 2: Vermelho
+                imagem[i][j].canais.r = 255;
+                imagem[i][j].canais.g = 0;
+                imagem[i][j].canais.b = 0;
+            }
+        }
+    }
+}
